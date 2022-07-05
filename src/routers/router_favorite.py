@@ -31,7 +31,7 @@ async def create_user(favorite:schemas.FavoriteInsert):
 
 @router.get(   "/list",
                 status_code=status.HTTP_200_OK,
-                response_model=List[schemas.Favorite],
+                response_model=List[schemas.FavoriteComplete],
                 tags=["List"])
 async def list_user():
     try:
@@ -54,9 +54,14 @@ async def delete_user(id:int):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Usuário com o id '{id}' inexistente"
         )
-        
-    await RepositorioFavorite ().delete(id);
-    return schemas.Response(message="User deletado com sucesso!");
+    try:
+        await RepositorioFavorite ().delete(id);
+        return schemas.Response(message="User deletado com sucesso!");
+    except Exception as error:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"{error}"
+        );
 #-----------------------
 # Main()
 #-----------------------

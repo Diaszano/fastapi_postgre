@@ -4,7 +4,8 @@
 from typing import List
 from src.schemas import schemas
 from sqlalchemy.orm import Session
-from sqlalchemy import select, update, delete, insert
+from sqlalchemy.future import select
+from sqlalchemy import update, delete, insert
 from src.infra.sqlalchemy.models.models import Favorite
 from src.infra.sqlalchemy.config.connection import async_session
 #-----------------------
