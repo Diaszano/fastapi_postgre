@@ -19,7 +19,7 @@ class AssetService():
                 f"{symbol}/day-summary/"
                 f"{yesterday.year}/{yesterday.month}/{yesterday.day}/"
             );
-            response     = await session.get(url);
+            response = await session.get(url);
             try:
                 data   :dict = await response.json();
                 retorno:dict = {
