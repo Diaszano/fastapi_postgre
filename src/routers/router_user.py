@@ -8,7 +8,7 @@ from src.infra.sqlalchemy.repositorios.user import RepositorioUser
 #-----------------------
 # CONSTANTES
 #-----------------------
-router   = APIRouter(prefix="/user");
+router   = APIRouter(prefix="/user",tags=["User"],);
 #-----------------------
 # CLASSES
 #-----------------------
@@ -31,7 +31,7 @@ async def create_user(user:schemas.UserInsert):
 
 @router.get(   "/list",
                 status_code=status.HTTP_200_OK,
-                response_model=List[schemas.UserComplete],
+                response_model=List[schemas.User],
                 tags=["List"])
 async def list_user():
     try:
@@ -43,7 +43,7 @@ async def list_user():
             detail=f"{error}"
         );
 
-@router.delete(   "/create/{id}",
+@router.delete(   "/delete/{id}",
                 status_code=status.HTTP_200_OK,
                 response_model=schemas.Response,
                 tags=["Delete"])

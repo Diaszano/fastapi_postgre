@@ -8,7 +8,7 @@ from src.infra.sqlalchemy.repositorios.favorite import RepositorioFavorite
 #-----------------------
 # CONSTANTES
 #-----------------------
-router   = APIRouter(prefix="/favorite");
+router   = APIRouter(prefix="/favorite",tags=["Favorite"]);
 #-----------------------
 # CLASSES
 #-----------------------
