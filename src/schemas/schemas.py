@@ -9,18 +9,35 @@ from typing import Optional, List
 #-----------------------
 # CLASSES
 #-----------------------
-class FavoriteSimples(BaseModel):
-    symbol:str;
-
-class User(BaseModel):
-    id       : Optional[int] = None;
-    name     : str;
-    favorites: Optional[List[FavoriteSimples]] = None;
-
+# Favorite
 class Favorite(BaseModel):
-    id     : Optional[int] = None;
-    symbol : str;
-    user_id: Optional[int] = None;
+    symbol:str;
+    
+    class Config:
+        orm_mode = True;
+
+class FavoriteInsert(Favorite):
+    user_id:Optional[int] = None;
+
+class FavoriteComplete(FavoriteInsert):
+    id:Optional[int] = None;
+
+# User
+class UserInsert(BaseModel):
+    name:str;
+    
+    class Config:
+        orm_mode = True;
+
+class User(UserInsert):
+    id:Optional[int] = None;    
+
+class UserComplete(User):
+    favorites:Optional[List[Favorite]] = None;
+
+# Response
+class Response(BaseModel):
+    message:str
 #-----------------------
 # FUNÇÕES()
 #-----------------------

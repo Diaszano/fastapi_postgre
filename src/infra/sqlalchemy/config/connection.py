@@ -3,7 +3,6 @@
 #-----------------------
 from os import getenv
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.future import select
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 #-----------------------
 # CONSTANTES
