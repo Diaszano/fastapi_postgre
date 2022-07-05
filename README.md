@@ -17,3 +17,8 @@
 - [Pipenv](https://pypi.org/project/pipenv/) -> pip + venv (Pipfile,Pipfile.lock)
 - [Postgres](https://www.postgresql.org/) e [pgAdmin](https://www.pgadmin.org/) (docker image)
 - [API do mercado bitcoin](https://www.mercadobitcoin.com.br/api-doc/)
+
+## Referência:
+
+- [Criando API Rest com FastAPI](https://youtu.be/1CZZAhwqyco)
+- [FastAPI](https://fastapi.tiangolo.com/)
