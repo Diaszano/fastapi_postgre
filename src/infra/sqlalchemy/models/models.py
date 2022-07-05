@@ -33,7 +33,7 @@ class Favorite(Base):
         autoincrement=True
     );
     symbol  = Column(String);
-    user_id = Column(Integer,ForeignKey('user.id'));
+    user_id = Column(Integer,ForeignKey('user.id',name="fk_favorite_user"));
 #-----------------------
 # FUNÇÕES()
 #-----------------------

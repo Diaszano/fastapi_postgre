@@ -3,8 +3,8 @@
 # BIBLIOTECAS
 #-----------------------
 from fastapi import FastAPI
-from src.routers import router_user
 from fastapi.middleware.cors import CORSMiddleware
+from src.routers import router_user,router_favorite
 #-----------------------
 # FastApi
 #-----------------------
@@ -28,4 +28,5 @@ app.add_middleware(
 # Routers
 #-----------------------
 app.include_router(router_user.router);
+app.include_router(router_favorite.router);
 #-----------------------
