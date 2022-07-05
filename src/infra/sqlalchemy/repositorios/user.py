@@ -62,7 +62,7 @@ class RepositorioUser():
             );
             
             retorno = await session.execute(stmt);
-            retorno = retorno.scalars().fetchall();
+            retorno = retorno.scalars().one();
         return retorno;
     # Read
     async def readName(self,name:str) -> List[User]:
@@ -75,7 +75,7 @@ class RepositorioUser():
             );
             
             retorno = await session.execute(stmt);
-            retorno = retorno.scalars().fetchall();
+            retorno = retorno.scalars().one();
         return retorno;
     # Update
     async def update(self,idUser:int,user:schemas.User) -> None:

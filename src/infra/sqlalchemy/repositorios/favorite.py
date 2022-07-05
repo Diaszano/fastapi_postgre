@@ -64,7 +64,7 @@ class RepositorioFavorite():
             );
             
             retorno = await session.execute(stmt);
-            retorno = retorno.scalars().fetchall();
+            retorno = retorno.scalars().one();
         return retorno;
     # Update
     async def update(self,idFavorite:int,favorite:schemas.Favorite) -> None:

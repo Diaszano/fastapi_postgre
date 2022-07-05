@@ -35,9 +35,21 @@ class User(UserInsert):
 class UserComplete(User):
     favorites:Optional[List[Favorite]] = None;
 
-# Response
+#Response
 class Response(BaseModel):
-    message:str
+    message:str;
+    
+    class Config:
+        orm_mode = True;
+
+#Asset
+class AssetReturn(BaseModel):
+    lowest : float
+    highest: float
+    symbol : str
+    
+    class Config:
+        orm_mode = True;
 #-----------------------
 # FUNÇÕES()
 #-----------------------

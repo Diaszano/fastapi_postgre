@@ -4,6 +4,7 @@
 from typing import List
 from src.schemas import schemas
 from fastapi import APIRouter, status, HTTPException
+from src.infra.sqlalchemy.repositorios.user import RepositorioUser
 from src.infra.sqlalchemy.repositorios.favorite import RepositorioFavorite 
 #-----------------------
 # CONSTANTES
@@ -20,6 +21,13 @@ router   = APIRouter(prefix="/favorite",tags=["Favorite"]);
                 response_model=schemas.Favorite,
                 tags=["Create"])
 async def create_user(favorite:schemas.FavoriteInsert):
+    try:
+        await RepositorioUser().readId(favorite.user_id);
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Usuário com o id '{favorite.user_id}' inexistente"
+        )
     try:
         retorno = await RepositorioFavorite().createReturn(favorite);
         return retorno;
@@ -48,8 +56,9 @@ async def list_user():
                 response_model=schemas.Response,
                 tags=["Delete"])
 async def delete_user(id:int):
-    retorno = await RepositorioFavorite().readId(id);
-    if(not retorno):
+    try:
+        await RepositorioFavorite().readId(id);
+    except:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Usuário com o id '{id}' inexistente"

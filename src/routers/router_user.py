@@ -5,6 +5,7 @@ from typing import List
 from src.schemas import schemas
 from fastapi import APIRouter, status, HTTPException
 from src.infra.sqlalchemy.repositorios.user import RepositorioUser
+from src.infra.sqlalchemy.repositorios.favorite import RepositorioFavorite
 #-----------------------
 # CONSTANTES
 #-----------------------
@@ -48,14 +49,21 @@ async def list_user():
                 response_model=schemas.Response,
                 tags=["Delete"])
 async def delete_user(id:int):
-    retorno = await RepositorioUser().readId(id);
-    if(not retorno):
+    try:
+        retorno = await RepositorioUser().readId(id);
+    except:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Usuário com o id '{id}' inexistente"
         )
-        
-    await RepositorioUser().delete(id);
+    
+    try:
+        await RepositorioUser().delete(id);
+    except:
+        for favorites in retorno.favorites:
+            favoriteId = favorites.id;
+            await RepositorioFavorite().delete(favoriteId);
+        await RepositorioUser().delete(id);  
     return schemas.Response(message="User deletado com sucesso!");
 #-----------------------
 # Main()
