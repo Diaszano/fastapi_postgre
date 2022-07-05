@@ -21,7 +21,8 @@ class User(Base):
     name      = Column(String);
     favorites = relationship(
         "Favorite",
-        backref="user"
+        backref="user",
+        lazy='subquery'
     );
 
 class Favorite(Base):
