@@ -31,7 +31,7 @@ async def create_user(user:schemas.UserInsert):
 
 @router.get(   "/list",
                 status_code=status.HTTP_200_OK,
-                response_model=List[schemas.User],
+                response_model=List[schemas.UserComplete],
                 tags=["List"])
 async def list_user():
     try:
