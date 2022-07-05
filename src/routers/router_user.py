@@ -2,6 +2,7 @@
 # BIBLIOTECAS
 #-----------------------
 from typing import List
+from asyncio import gather
 from src.schemas import schemas
 from fastapi import APIRouter, status, HTTPException
 from src.infra.sqlalchemy.repositorios.user import RepositorioUser
@@ -60,9 +61,15 @@ async def delete_user(id:int):
     try:
         await RepositorioUser().delete(id);
     except:
-        for favorites in retorno.favorites:
-            favoriteId = favorites.id;
-            await RepositorioFavorite().delete(favoriteId);
+        user_favoritesId = (
+            favorites.id
+            for favorites in retorno.favorites
+        );
+        tasks = (
+            RepositorioFavorite().delete(favoriteId)
+            for favoriteId in user_favoritesId
+        );
+        await gather(*tasks);
         await RepositorioUser().delete(id);  
     return schemas.Response(message="User deletado com sucesso!");
 #-----------------------

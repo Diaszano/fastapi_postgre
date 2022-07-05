@@ -22,7 +22,8 @@ async def delete_database():
     async with engine.begin() as connection:
         await connection.run_sync(Base.metadata.drop_all);
 if(__name__ == "__main__"):
-    run(create_database())
+    run(create_database());
+    # run(delete_database());
 #-----------------------
 # Main()
 #-----------------------

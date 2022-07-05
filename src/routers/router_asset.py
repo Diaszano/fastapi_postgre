@@ -2,6 +2,7 @@
 # BIBLIOTECAS
 #-----------------------
 from typing import List
+from asyncio import gather
 from src.schemas import schemas
 from src.tools.tools import AssetService
 from fastapi import APIRouter, status, HTTPException
@@ -18,7 +19,7 @@ router   = APIRouter(prefix="/asset",tags=["Asset"],);
 #-----------------------
 @router.get(   "/day_summary/{id_user}",
                 status_code=status.HTTP_200_OK,
-                # response_model=List[schemas.AssetReturn],
+                response_model=List[schemas.AssetReturn],
                 tags=["List"])
 async def day_summary(id_user:int):
     try:
@@ -29,16 +30,18 @@ async def day_summary(id_user:int):
             detail=f"User com o id '{id_user}' inexistente!"
         );
     try:
-        retorno:list = [];
+        favorites_symbols = (
+            favorite.symbol
+            for favorite in user.favorites
+        );
         
-        for favorites in user.favorites:
-            favorites:schemas.Favorite
-            
-            symbol = favorites.symbol;
-            retorno.append(
-                await AssetService.day_summary(symbol)
-            );
-        return retorno;
+        tasks = (
+            AssetService.day_summary(symbol)
+            for symbol in favorites_symbols
+        );
+
+        return await gather(*tasks);
+    
     except Exception as error:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
